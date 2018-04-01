@@ -6,4 +6,5 @@ class Feed(Resource):
 
     def __call__(self, offset=0):
         page = self._get('', params={'offset': offset}, auth=True)
+        items = [resource_for_data(d['item']) for d in page.pop('items')]
         return items, page
