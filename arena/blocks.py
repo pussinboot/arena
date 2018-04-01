@@ -13,6 +13,20 @@ class Block(Resource):
         self._set_data(data)
         self.user = arena.User(**self.user)
 
+    def __str__(self):
+        line_break = '=' * 33
+        url = 'are.na/block/{}'.format(self.id)
+        str_rep = '{} Block @ {}'.format(self.__dict__['class'], url)
+        if self.title is not None:
+            str_rep = '{}\n{}'.format(str_rep, self.title)
+        str_rep = '{}\n{}'.format(str_rep, line_break)
+        if self.content is None:
+            if self.source is not None:
+                str_rep = '{}\n{}'.format(str_rep, self.source.get('url'))
+        else:
+            str_rep = '{}\n{}'.format(str_rep, self.generated_title)
+        return '{}\n{}'.format(str_rep, line_break)
+
     @paginated
     def channels(self, **kwargs):
         """get channels this block is in"""

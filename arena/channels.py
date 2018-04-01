@@ -17,6 +17,10 @@ class Channel(Resource):
         self._set_data(data)
         self.user = arena.User(**self.user)
 
+    def __str__(self):
+        url = 'are.na/{}/{}'.format(self.user.id, self.slug)
+        return 'Channel @ {}'.format(url)
+
     @paginated
     def all(self, **kwargs):
         """gets full representation of this channel (paginated)"""
@@ -24,7 +28,7 @@ class Channel(Resource):
 
     def thumb(self, **kwargs):
         """gets a small representation of this channel"""
-        return self._get('/{slug}/thumb')
+        return self._get('/{slug}/thumb', auth=True)
 
     @paginated
     def connections(self, **kwargs):
@@ -45,7 +49,7 @@ class Channel(Resource):
     def contents(self, **kwargs):
         """get only contents for this channel (paginated)"""
         # for some reason this one is missing pagination data?
-        page = self._get('/{slug}/contents', params=kwargs['params'])
+        page = self._get('/{slug}/contents', params=kwargs['params'], auth=True)
         contents = [resource_for_data(d) for d in page.pop('contents')]
         return contents, page
 
