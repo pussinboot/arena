@@ -9,7 +9,7 @@ class Block(Resource):
     def __init__(self, id, **data):
         self.id = id
         if not data:
-            data = self._get('/{id}')
+            data = self._get('/{id}', auth=True)
         self._set_data(data)
         self.user = arena.User(**self.user)
 

@@ -66,7 +66,11 @@ class Resource():
             json=data)
         if resp.status_code != 200:
             resp.raise_for_status()
-        return resp.json()
+        try:
+            tor = resp.json()
+        except:
+            tor = True
+        return tor
 
     def _delete(self, endpoint, params=None):
         resp = requests.delete(

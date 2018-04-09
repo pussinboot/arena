@@ -90,6 +90,16 @@ class Channel(Resource):
             raise ValueError('One of `source` or `content` must be specified')
         return self._post('/{slug}/blocks', data=data)
 
+    def connect_to(self, block_or_channel):
+        """add an existing block to the channel"""
+        # currently undocumented endpoint
+        endpoint = '/{}/connections'.format('{slug}')
+        connect_data = {
+            'connectable_type': block_or_channel.base_class,
+            'connectable_id': block_or_channel.id
+        }
+        return self._post(endpoint, data=connect_data)
+
 
 class Channels(Resource):
     base_endpoint = '/channels'
